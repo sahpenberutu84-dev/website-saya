@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaffer's League: Football Manager 2026</title>
+    <!-- Google Fonts for Premium Sports Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="manager.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- INITIAL SETUP OVERLAY -->
+        <div id="setup-overlay" class="overlay active">
+            <div class="setup-card">
+                <div class="logo-area">
+                    <span class="logo-emoji">⚽</span>
+                    <h1>GAFFER'S LEAGUE</h1>
+                    <p class="subtitle">FOOTBALL MANAGER 2026</p>
+                </div>
+                <div class="setup-form">
+                    <div class="form-group">
+                        <label for="manager-name">Nama Manajer</label>
+                        <input type="text" id="manager-name" placeholder="Masukkan nama Anda..." value="Coach Gaffer">
+                    </div>
+                    <div class="form-group">
+                        <label for="team-name">Nama Klub Anda</label>
+                        <input type="text" id="team-name" placeholder="Nama klub..." value="Garuda United">
+                    </div>
+                    <div class="form-group">
+                        <label for="difficulty-level">Tingkat Kesulitan</label>
+                        <select id="difficulty-level" class="setup-select">
+                            <option value="easy">Mudah (Modal $35M)</option>
+                            <option value="medium" selected>Normal (Modal $20M)</option>
+                            <option value="hard">Sulit (Modal $10M)</option>
+                        </select>
+                    </div>
+                    <button id="start-game-btn" class="action-btn glow-btn-green">Mulai Karir Anda 🚀</button>
+                    <a href="index.html" class="back-link">🎲 Kembali ke Ludo Cyber King</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN HEADER -->
+        <header class="main-header">
+            <div class="header-left">
+                <span class="icon">⚽</span>
+                <div>
+                    <h1 id="header-club-name">Garuda United</h1>
+                    <p class="manager-title">Manajer: <span id="header-manager-name">Coach Gaffer</span></p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-box">
+                    <span class="stat-label">PEKAN</span>
+                    <span id="current-week" class="stat-value text-gold">1/30</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">SALDO</span>
+                    <span id="current-balance" class="stat-value text-emerald">$20,000,000</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">PERINGKAT</span>
+                    <span id="current-rank" class="stat-value text-cyan">Ke-8</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="reset-career-btn" class="secondary-btn btn-sm">Reset Game</button>
+                <a href="index.html" class="back-to-ludo-btn">🎲 Ludo King</a>
+            </div>
+        </header>
+
+        <!-- MAIN WORKSPACE -->
+        <div class="workspace">
+            
+            <!-- SIDEBAR NAVIGATION -->
+            <nav class="sidebar">
+                <button class="nav-item active" data-tab="tab-dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </button>
+                <button class="nav-item" data-tab="tab-squad">
+                    <span class="nav-icon">👕</span>
+                    <span class="nav-text">Skuad & Taktik</span>
+                </button>
+                <button class="nav-item" data-tab="tab-standings">
+                    <span class="nav-icon">🏆</span>
+                    <span class="nav-text">Klasemen & Jadwal</span>
+                </button>
+                <button class="nav-item" data-tab="tab-transfer">
+                    <span class="nav-icon">🤝</span>
+                    <span class="nav-text">Bursa Transfer</span>
+                </button>
+                <button class="nav-item" data-tab="tab-facilities">
+                    <span class="nav-icon">🏢</span>
+                    <span class="nav-text">Fasilitas & Klub</span>
+                </button>
+                <button class="nav-item" data-tab="tab-finances">
+                    <span class="nav-icon">💵</span>
+                    <span class="nav-text">Keuangan</span>
+                </button>
+            </nav>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="content-area">
+                
+                <!-- TAB 1: DASHBOARD -->
+                <section id="tab-dashboard" class="tab-content active">
+                    <div class="dashboard-grid">
+                        <!-- LEFT COLUMN -->
+                        <div class="dash-col">
+                            <!-- NEXT MATCH CARD -->
+                            <div class="card next-match-card">
+                                <h2 class="card-title">⚽ Pekan Berikutnya</h2>
+                                <div class="next-match-details">
+                                    <div class="match-vs">
+                                        <div class="vs-team user-team-vs">
+                                            <div class="team-jersey user-jersey">GU</div>
+                                            <span id="vs-user-name">Garuda United</span>
+                                            <span class="team-rating-badge" id="vs-user-rating">Rating: 72</span>
+                                        </div>
+                                        <div class="vs-indicator">VS</div>
+                                        <div class="vs-team opponent-team-vs">
+                                            <div class="team-jersey opponent-jersey" id="vs-opp-jersey">Opp</div>
+                                            <span id="vs-opp-name">Bandung Tigers</span>
+                                            <span class="team-rating-badge" id="vs-opp-rating">Rating: 78</span>
+                                        </div>
+                                    </div>
+                                    <div class="match-context">
+                                        <span class="badge" id="match-home-away">HOME</span>
+                                        <span class="match-location">Stadion: <span id="match-venue">Senayan Arena</span></span>
+                                    </div>
+                                </div>
+                                <button id="play-match-btn" class="action-btn glow-btn-green w-100 mt-2">MASUK MATCH CENTER ➔</button>
+                            </div>
+
+                            <!-- INBOX / MAILBOX -->
+                            <div class="card inbox-card">
+                                <h2 class="card-title">✉️ Kotak Masuk Pesan</h2>
+                                <div class="inbox-list" id="inbox-list">
+                                    <!-- Messages go here -->
+                                    <div class="inbox-item read">
+                                        <div class="inbox-meta">
+                                            <span class="inbox-sender">Direksi Klub</span>
+                                            <span class="inbox-time">Pekan 1</span>
+                                        </div>
+                                        <div class="inbox-subject">Selamat Datang di Klub!</div>
+                                        <div class="inbox-body">Kami menargetkan Anda untuk membawa tim ini berada di papan tengah pada akhir musim. Jangan kecewakan fans!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT COLUMN -->
+                        <div class="dash-col">
+                            <!-- CLUB OVERVIEW -->
+                            <div class="card overview-card">
+                                <h2 class="card-title">🏰 Ringkasan Klub</h2>
+                                <div class="overview-stats">
+                                    <div class="ov-item">
+                                        <span class="ov-label">Kapasitas Stadion</span>
+                                        <span class="ov-value" id="ov-stadium-capacity">15,000 Penonton</span>
+                                    </div>
+                                    <div class="ov-item">
+                                        <span class="ov-label">Fasilitas Latihan</span>
+                                        <span class="ov-value" id="ov-training-lvl">Level 1 (Amatir)</span>
+                                    </div>
+                                    <div class="ov-item">
+                                        <span class="ov-label">Akademi Pemuda</span>
+                                        <span class="ov-value" id="ov-youth-lvl">Level 1 (Dasar)</span>
+                                    </div>
+                                    <div class="ov-item">
+                                        <span class="ov-label">Kesejahteraan Pemain</span>
+                                        <span class="ov-value" id="ov-avg-energy">98% Energi Rata-rata</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- RECENT RESULTS -->
+                            <div class="card results-card">
+                                <h2 class="card-title">📝 Hasil Pertandingan Terakhir</h2>
+                                <div class="results-list" id="recent-results-list">
+                                    <div class="no-data-msg">Belum ada pertandingan yang dimainkan musim ini.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: SQUAD & TACTICS -->
+                <section id="tab-squad" class="tab-content">
+                    <div class="squad-layout">
+                        <!-- SQUAD PANEL -->
+                        <div class="squad-panel">
+                            <div class="panel-header-row">
+                                <h2>👕 Daftar Pemain Skuad</h2>
+                                <span class="badge badge-info" id="squad-size-indicator">18 / 22 Pemain</span>
+                            </div>
+                            <div class="table-container">
+                                <table class="squad-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Nama</th>
+                                            <th>Pos</th>
+                                            <th>Rating</th>
+                                            <th>Umur</th>
+                                            <th>Kondisi</th>
+                                            <th>Form</th>
+                                            <th>Statistik</th>
+                                            <th>Gaji</th>
+                                            <th>Tindakan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="squad-table-body">
+                                        <!-- Player rows populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- TACTICS PANEL -->
+                        <div class="tactics-panel">
+                            <div class="card">
+                                <h2 class="card-title">⚙️ Taktik & Formasi</h2>
+                                <div class="tactic-group">
+                                    <label for="tactic-formation">Formasi Utama</label>
+                                    <select id="tactic-formation" class="retro-select">
+                                        <option value="4-4-2">4-4-2 (Klasik Balanced)</option>
+                                        <option value="4-3-3">4-3-3 (Menyerang Lebar)</option>
+                                        <option value="3-5-2">3-5-2 (Dominasi Tengah)</option>
+                                        <option value="5-4-1">5-4-1 (Dinding Pertahanan)</option>
+                                    </select>
+                                </div>
+                                <div class="tactic-group">
+                                    <label for="tactic-mentality">Mentalitas Tim</label>
+                                    <select id="tactic-mentality" class="retro-select">
+                                        <option value="defensive">Bertahan (Defensive)</option>
+                                        <option value="balanced" selected>Seimbang (Balanced)</option>
+                                        <option value="attacking">Menyerang (Attacking)</option>
+                                    </select>
+                                </div>
+                                <div class="tactic-group">
+                                    <label for="tactic-captain">Kapten Tim</label>
+                                    <select id="tactic-captain" class="retro-select">
+                                        <!-- Populated via JS -->
+                                    </select>
+                                </div>
+                                <div class="tactic-group">
+                                    <label for="tactic-penalty">Penendang Penalti</label>
+                                    <select id="tactic-penalty" class="retro-select">
+                                        <!-- Populated via JS -->
+                                    </select>
+                                </div>
+                                <div class="tactic-rating-summary mt-2">
+                                    <div class="stat-row">
+                                        <span>Rata-rata Rating Skuad:</span>
+                                        <strong id="tactic-avg-rating" class="text-white">72</strong>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>Starting 11 Strength:</span>
+                                        <strong id="tactic-starting-rating" class="text-gold">72.4</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: STANDINGS & SCHEDULE -->
+                <section id="tab-standings" class="tab-content">
+                    <div class="standings-layout">
+                        <!-- LEAGUE STANDINGS TABLE -->
+                        <div class="standings-panel">
+                            <h2>🏆 Klasemen Sementara Liga</h2>
+                            <div class="table-container">
+                                <table class="standings-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Pos</th>
+                                            <th>Nama Klub</th>
+                                            <th>Main</th>
+                                            <th>M</th>
+                                            <th>S</th>
+                                            <th>K</th>
+                                            <th>Gol</th>
+                                            <th>Sel. Gol</th>
+                                            <th>Poin</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="standings-table-body">
+                                        <!-- Standings rows via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- STATS & SCHEDULE PANEL -->
+                        <div class="stats-schedule-panel">
+                            <!-- TOP SCORERS -->
+                            <div class="card mb-2">
+                                <h2 class="card-title">⚽ Top Skorer Liga</h2>
+                                <div class="stats-list" id="top-scorers-list">
+                                    <!-- Populated via JS -->
+                                </div>
+                            </div>
+                            
+                            <!-- TOP ASSISTS -->
+                            <div class="card mb-2">
+                                <h2 class="card-title">👟 Top Assists Liga</h2>
+                                <div class="stats-list" id="top-assists-list">
+                                    <!-- Populated via JS -->
+                                </div>
+                            </div>
+
+                            <!-- SEASON SCHEDULE -->
+                            <div class="card">
+                                <h2 class="card-title">📅 Jadwal Liga Lengkap</h2>
+                                <div class="tactic-group">
+                                    <label for="schedule-filter-week">Lihat Pekan:</label>
+                                    <select id="schedule-filter-week" class="retro-select">
+                                        <!-- Populated via JS -->
+                                    </select>
+                                </div>
+                                <div class="schedule-list" id="schedule-match-list">
+                                    <!-- Matches list via JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: TRANSFER MARKET -->
+                <section id="tab-transfer" class="tab-content">
+                    <div class="transfer-layout">
+                        <!-- MARKET PLAYERS -->
+                        <div class="market-panel">
+                            <div class="panel-header-row">
+                                <h2>🤝 Daftar Pemain Dijual (Transfer Market)</h2>
+                                <button id="refresh-market-btn" class="secondary-btn btn-sm" title="Menyegarkan otomatis setiap pekan atau bayar $100K">🔄 Segarkan ($100K)</button>
+                            </div>
+                            <p class="description-text">Beli pemain berkualitas untuk meningkatkan rating starting XI Anda. Saldo Anda: <strong id="transfer-balance-display" class="text-emerald">$20,000,000</strong></p>
+                            <div class="market-grid" id="market-players-grid">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+
+                        <!-- MY SQUAD FOR SALE -->
+                        <div class="my-sale-panel">
+                            <h2>💰 Jual Pemain Skuad Anda</h2>
+                            <p class="description-text">Pilih pemain Anda untuk ditawarkan ke pasar transfer. Setelah mendaftarkannya, Anda akan menerima penawaran dari klub lain atau direksi.</p>
+                            <div class="table-container">
+                                <table class="sale-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama</th>
+                                            <th>Rating/Pos</th>
+                                            <th>Nilai Pasar</th>
+                                            <th>Status</th>
+                                            <th>Tindakan / Penawaran</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="squad-sale-body">
+                                        <!-- Squad sell table via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: FACILITIES & CLUB -->
+                <section id="tab-facilities" class="tab-content">
+                    <div class="facilities-layout">
+                        <h2>🏢 Pengembangan Fasilitas & Infrastruktur Klub</h2>
+                        <p class="description-text">Investasikan uang klub Anda untuk meningkatkan aset jangka panjang demi masa depan finansial dan pembinaan bakat muda.</p>
+                        
+                        <div class="facility-grid">
+                            <!-- STADIUM CARD -->
+                            <div class="facility-card">
+                                <div class="fac-icon">🏟️</div>
+                                <h3>Upgrade Stadion</h3>
+                                <div class="fac-info">
+                                    <p>Kapasitas saat ini: <strong id="fac-stadium-capacity">15,000</strong> kursi</p>
+                                    <p>Pendapatan tiket rata-rata: <strong id="fac-stadium-revenue">$450,000</strong> / laga kandang</p>
+                                    <p class="fac-desc">Meningkatkan kapasitas stadion akan menaikkan pendapatan dari penjualan tiket di setiap pertandingan kandang.</p>
+                                </div>
+                                <div class="fac-upgrade-control">
+                                    <span class="fac-next-lvl">Kapasitas Baru: <strong id="fac-stadium-next">20,000</strong> kursi</span>
+                                    <button id="upgrade-stadium-btn" class="action-btn glow-btn-green w-100">Upgrade (Biaya: <span id="fac-stadium-cost">$3,000,000</span>)</button>
+                                </div>
+                            </div>
+
+                            <!-- TRAINING FACILITY CARD -->
+                            <div class="facility-card">
+                                <div class="fac-icon">🏋️‍♂️</div>
+                                <h3>Fasilitas Latihan</h3>
+                                <div class="fac-info">
+                                    <p>Level saat ini: <strong id="fac-training-level">Level 1 (Amatir)</strong></p>
+                                    <p>Efisiensi latihan: <strong id="fac-training-boost">+0.1 rating</strong> / pekan untuk pemain muda (<23th)</p>
+                                    <p class="fac-desc">Pusat pelatihan yang baik akan mempercepat peningkatan kemampuan/rating pemain muda Anda di akhir pekan.</p>
+                                </div>
+                                <div class="fac-upgrade-control">
+                                    <span class="fac-next-lvl" id="fac-training-next">Level Selanjutnya: Level 2 (Bagus)</span>
+                                    <button id="upgrade-training-btn" class="action-btn glow-btn-green w-100">Upgrade (Biaya: <span id="fac-training-cost">$2,000,000</span>)</button>
+                                </div>
+                            </div>
+
+                            <!-- YOUTH ACADEMY CARD -->
+                            <div class="facility-card">
+                                <div class="fac-icon">🎓</div>
+                                <h3>Akademi Pemuda</h3>
+                                <div class="fac-info">
+                                    <p>Level saat ini: <strong id="fac-youth-level">Level 1 (Dasar)</strong></p>
+                                    <p>Status Rekrutmen: <strong id="fac-youth-progress">Pekan 1/8</strong></p>
+                                    <p class="fac-desc">Melahirkan pemain berbakat asli binaan klub (usia 16-18 tahun) secara berkala secara gratis untuk dimasukkan ke skuad utama.</p>
+                                </div>
+                                <div class="fac-upgrade-control">
+                                    <span class="fac-next-lvl" id="fac-youth-next">Level Selanjutnya: Level 2 (Menengah)</span>
+                                    <button id="upgrade-youth-btn" class="action-btn glow-btn-green w-100">Upgrade (Biaya: <span id="fac-youth-cost">$2,500,000</span>)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: FINANCES -->
+                <section id="tab-finances" class="tab-content">
+                    <div class="finances-layout">
+                        <h2>💵 Laporan Finansial Klub</h2>
+                        <p class="description-text">Pantau neraca keuangan mingguan Anda untuk menjaga klub agar tidak bangkrut. Jika saldo menjadi negatif di akhir musim, Anda berisiko dipecat!</p>
+                        
+                        <div class="finances-container">
+                            <div class="finance-card">
+                                <h3>📊 Neraca Pekan Lalu</h3>
+                                <div class="finance-ledger">
+                                    <div class="ledger-section">
+                                        <h4 class="text-emerald">Pemasukan (+)</h4>
+                                        <div class="ledger-row">
+                                            <span>Penjualan Tiket Stadion:</span>
+                                            <span id="fin-in-tickets" class="val-plus">+$450,000</span>
+                                        </div>
+                                        <div class="ledger-row">
+                                            <span>Kontrak Sponsor:</span>
+                                            <span id="fin-in-sponsors" class="val-plus">+$250,000</span>
+                                        </div>
+                                        <div class="ledger-row">
+                                            <span>Penjualan Merchandise:</span>
+                                            <span id="fin-in-merch" class="val-plus">+$120,000</span>
+                                        </div>
+                                        <div class="ledger-row">
+                                            <span>Penjualan Pemain:</span>
+                                            <span id="fin-in-transfers" class="val-plus">+$0</span>
+                                        </div>
+                                        <div class="ledger-row total-row">
+                                            <span>Total Pemasukan:</span>
+                                            <span id="fin-in-total" class="val-plus">+$820,000</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="ledger-section">
+                                        <h4 class="text-rose">Pengeluaran (-)</h4>
+                                        <div class="ledger-row">
+                                            <span>Gaji Seluruh Pemain:</span>
+                                            <span id="fin-out-wages" class="val-minus">-$340,000</span>
+                                        </div>
+                                        <div class="ledger-row">
+                                            <span>Perawatan Stadion & Fasilitas:</span>
+                                            <span id="fin-out-maintenance" class="val-minus">-$80,000</span>
+                                        </div>
+                                        <div class="ledger-row">
+                                            <span>Pembelian Pemain Baru:</span>
+                                            <span id="fin-out-transfers" class="val-minus">-$0</span>
+                                        </div>
+                                        <div class="ledger-row total-row">
+                                            <span>Total Pengeluaran:</span>
+                                            <span id="fin-out-total" class="val-minus">-$420,000</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="finance-summary-box">
+                                    <div class="summary-item">
+                                        <span>Keuntungan Bersih Pekan Lalu:</span>
+                                        <strong id="fin-weekly-profit" class="text-emerald">+$400,000</strong>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Proyeksi Kas Pekan Depan:</span>
+                                        <strong id="fin-projected-cash" class="text-cyan">$20,400,000</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </main>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- LIVE MATCH CENTER OVERLAY (MODAL MODERATOR) -->
+        <!-- ============================================ -->
+        <div id="match-center" class="overlay">
+            <div class="match-center-container">
+                
+                <!-- MATCH HEADER SCOREBOARD -->
+                <div class="match-scoreboard">
+                    <div class="board-team user-team-board">
+                        <div class="team-jersey user-jersey">GU</div>
+                        <span id="mc-user-name">Garuda United</span>
+                    </div>
+                    <div class="score-display">
+                        <span id="mc-user-score" class="score-num">0</span>
+                        <span class="score-dash">-</span>
+                        <span id="mc-opp-score" class="score-num">0</span>
+                    </div>
+                    <div class="board-team opponent-team-board">
+                        <span id="mc-opp-name">Bandung Tigers</span>
+                        <div class="team-jersey opponent-jersey" id="mc-opp-jersey">Opp</div>
+                    </div>
+                    <div class="match-time-badge">
+                        <span id="mc-time">00:00</span>
+                        <div id="mc-live-dot" class="live-dot pulse"></div>
+                    </div>
+                </div>
+
+                <!-- MATCH MAIN FIELD & LOGS -->
+                <div class="match-body">
+                    
+                    <!-- LEFT SIDE: FIELD & INTERACTIVE TACTICS -->
+                    <div class="match-left">
+                        <!-- 2D FIELD REPRESENTATION -->
+                        <div class="football-field">
+                            <div class="center-circle"></div>
+                            <div class="penalty-area area-home"></div>
+                            <div class="penalty-area area-away"></div>
+                            <div class="field-line half-line"></div>
+                            <!-- BALL ICON -->
+                            <div id="field-ball" class="match-ball center">⚽</div>
+                            
+                            <!-- Visual zones label -->
+                            <div class="field-zone zone-defense">Daerah Pertahanan</div>
+                            <div class="field-zone zone-midfield">Lini Tengah</div>
+                            <div class="field-zone zone-attack">Daerah Penyerangan</div>
+                        </div>
+
+                        <!-- LIVE MATCH TACTICS & SUBS PANEL -->
+                        <div class="match-tactics-card">
+                            <h3>⚙️ Ubah Taktik Tengah Laga</h3>
+                            <div class="match-tactic-row">
+                                <div class="match-tactic-col">
+                                    <label for="mc-mentality">Mentalitas</label>
+                                    <select id="mc-mentality" class="retro-select input-sm">
+                                        <option value="defensive">Bertahan</option>
+                                        <option value="balanced" selected>Seimbang</option>
+                                        <option value="attacking">Menyerang</option>
+                                    </select>
+                                </div>
+                                <div class="match-tactic-col">
+                                    <label>Pergantian Pemain (Subs)</label>
+                                    <button id="mc-make-sub-btn" class="secondary-btn btn-sm w-100">Ganti Pemain (Sub)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT SIDE: COMMENTS, STATS & CONTROLS -->
+                    <div class="match-right">
+                        
+                        <!-- SIMULATION CONTROLS -->
+                        <div class="sim-controls-card">
+                            <div class="sim-speeds">
+                                <button class="speed-btn active" id="mc-speed-1">1x</button>
+                                <button class="speed-btn" id="mc-speed-2">2x</button>
+                                <button class="speed-btn" id="mc-speed-3">3x</button>
+                                <button class="speed-btn text-cyan" id="mc-speed-instant">Skip ➔</button>
+                            </div>
+                            <div class="sim-toggles">
+                                <button id="mc-mute-btn" class="mute-btn" title="Mute Suara Atmosfer">🔊 Suara</button>
+                            </div>
+                        </div>
+
+                        <!-- MATCH STATS -->
+                        <div class="match-stats-card">
+                            <h3>📊 Statistik Live</h3>
+                            <div class="live-stat-bar">
+                                <div class="stat-bar-label">Penguasaan Bola</div>
+                                <div class="stat-progress-container">
+                                    <span id="stat-poss-user" class="stat-val-left">50%</span>
+                                    <div class="stat-bar-fill-left" id="stat-bar-poss-user" style="width: 50%;"></div>
+                                    <div class="stat-bar-fill-right" id="stat-bar-poss-opp" style="width: 50%;"></div>
+                                    <span id="stat-poss-opp" class="stat-val-right">50%</span>
+                                </div>
+                            </div>
+                            <div class="stat-grid-simple">
+                                <div class="stat-grid-row">
+                                    <span id="stat-shots-user">0</span>
+                                    <span>Tembakan (On Target)</span>
+                                    <span id="stat-shots-opp">0</span>
+                                </div>
+                                <div class="stat-grid-row">
+                                    <span id="stat-fouls-user">0</span>
+                                    <span>Pelanggaran</span>
+                                    <span id="stat-fouls-opp">0</span>
+                                </div>
+                                <div class="stat-grid-row">
+                                    <span id="stat-cards-user">0</span>
+                                    <span>Kartu Kuning/Merah</span>
+                                    <span id="stat-cards-opp">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- COMMENTARY FEED -->
+                        <div class="commentary-card">
+                            <h3>🎤 Komentator Langsung</h3>
+                            <div class="commentary-list" id="mc-commentary-list">
+                                <div class="comment-item comment-system">Selamat datang di stadion! Tim sedang melakukan pemanasan. Laga akan segera dimulai...</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- POST-MATCH SUMMARY OVERLAY (Visible when match ends) -->
+                <div id="post-match-overlay" class="post-match-overlay">
+                    <div class="post-card">
+                        <h2>🏁 Pertandingan Selesai!</h2>
+                        <div class="post-score">
+                            <span id="pm-user-team">Garuda United</span>
+                            <span id="pm-score" class="pm-score-text">0 - 0</span>
+                            <span id="pm-opp-team">Bandung Tigers</span>
+                        </div>
+                        
+                        <div class="post-summary-content">
+                            <div class="post-scorers">
+                                <h4>⚽ Pencetak Gol:</h4>
+                                <div id="pm-scorers-list" class="scorers-list">
+                                    <div>Tidak ada gol tercetak.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="post-winnings">
+                                <h4>💵 Ringkasan Hasil Laga:</h4>
+                                <ul class="post-winnings-list">
+                                    <li>Pendapatan Tiket Stadion: <strong id="pm-revenue" class="text-emerald">+$450,000</strong></li>
+                                    <li>Poin Liga: <strong id="pm-points" class="text-gold">+1 Poin</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <button id="mc-exit-btn" class="action-btn glow-btn-green w-100">Kembali ke Dashboard ➔</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SUB SYSTEM MODAL DURING LIVE MATCH -->
+        <!-- ============================================ -->
+        <div id="sub-modal" class="overlay">
+            <div class="sub-modal-card">
+                <h2>👕 Pergantian Pemain</h2>
+                <p class="description-text">Klik salah satu pemain utama (Starting 11) dan pemain cadangan (Bench) untuk menukarnya.</p>
+                
+                <div class="sub-columns">
+                    <!-- STARTING 11 LIST -->
+                    <div class="sub-col-list">
+                        <h3>Pemain Utama (Starting 11)</h3>
+                        <div class="sub-list" id="sub-starting-list">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- BENCH LIST -->
+                    <div class="sub-col-list">
+                        <h3>Cadangan (Bench)</h3>
+                        <div class="sub-list" id="sub-bench-list">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-modal-actions mt-2">
+                    <button id="confirm-sub-btn" class="action-btn glow-btn-green">Terapkan Pergantian</button>
+                    <button id="cancel-sub-btn" class="secondary-btn">Batal</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- SCRIPT DEFER LOADS -->
+    <script src="manager.js"></script>
+</body>
+</html>
